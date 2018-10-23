@@ -12,6 +12,11 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.stage.Modality;
+import javafx.scene.layout.VBox;
+import javafx.scene.Scene;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -88,13 +93,13 @@ public class Game extends Pane {
         }
     };
 
-    public boolean isGameWon() {
+    public boolean isGameWon(Stage primaryStage) {
         int foundationCards = 0;
         for (Pile foundation : foundationPiles) {
             foundationCards += foundation.numOfCards();
         }
         if (foundationCards == 52) {
-            congratulationPopup();
+            congratulationPopup(primaryStage);
             return true;
         }
         return false;
@@ -102,7 +107,7 @@ public class Game extends Pane {
 
     public Game() {
         deck = Card.createNewDeck();
-        shuffleDeck();
+        shuffleDeck(deck);
         initPiles();
         dealCards();
     }
@@ -235,20 +240,18 @@ public class Game extends Pane {
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
 
-    private void shuffleDeck(){
-        Collections.shuffle(deck);
-    }
-
-    public boolean isValidMoveFoundation() {
-        return true;
-    }
-
-    public void congratulationPopup() {
-        System.out.println("Test");
+    public void congratulationPopup(Stage primaryStage) {
+        final Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(primaryStage);
+        VBox dialogVbox = new VBox(20);
+        dialogVbox.getChildren().add(new Text("Congratulations, you won!"));
+        Scene dialogScene = new Scene(dialogVbox, 300, 200);
+        dialog.setScene(dialogScene);
+        dialog.show();
     }
 
     public void shuffleDeck(List deck){
         Collections.shuffle(deck);
     }
-
 }

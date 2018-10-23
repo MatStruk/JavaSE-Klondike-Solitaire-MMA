@@ -89,7 +89,7 @@ public class Card extends ImageView {
 
     public static boolean isOppositeColor(Card card1, Card card2) {
         //TODO
-        if (card1.suit == card2.suit) {
+        if (card1.isRed && card2.isRed) {
             return false;
         }
         else {

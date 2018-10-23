@@ -114,6 +114,10 @@ public class Game extends Pane {
     }
 
     public Game() {
+        createnewGame();
+    }
+
+    public void createnewGame() {
         deck = Card.createNewDeck();
         shuffleDeck(deck);
         initPiles();
@@ -288,10 +292,6 @@ public class Game extends Pane {
         tableauPiles.clear();
         foundationPiles.clear();
         this.getChildren().clear();
-        deck = Card.createNewDeck();
-        shuffleDeck(deck);
-        initPiles();
-        dealCards();
-        restartButton();
+        createnewGame();
     }
 }

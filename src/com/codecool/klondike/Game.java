@@ -114,7 +114,7 @@ public class Game extends Pane {
     }
 
     public void refillStockFromDiscard() {
-        stockPile.getCards().addAll(discardPile.getCards());
+        discardPile.getCards().addAll(stockPile.getCards());
         discardPile.clear();
         System.out.println("Stock refilled from discard pile.");
     }
@@ -227,8 +227,12 @@ public class Game extends Pane {
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
 
-    public void shuffleDeck(){
+    private void shuffleDeck(){
         Collections.shuffle(deck);
+    }
+
+    public boolean isValidMoveFoundation() {
+        return true;
     }
 
 }

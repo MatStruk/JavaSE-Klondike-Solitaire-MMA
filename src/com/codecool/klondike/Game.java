@@ -1,7 +1,9 @@
 package com.codecool.klondike;
 
+import com.sun.prism.paint.Color;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
@@ -17,6 +19,8 @@ import javafx.stage.Modality;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
+import javafx.scene.text.Font;
+import javafx.scene.control.Button;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -103,7 +107,7 @@ public class Game extends Pane {
             foundationCards += foundation.numOfCards();
         }
         if (foundationCards == 52) {
-            congratulationPopup(primaryStage);
+            displayCongratulations();
             return true;
         }
         return false;
@@ -114,6 +118,7 @@ public class Game extends Pane {
         shuffleDeck(deck);
         initPiles();
         dealCards();
+        restartButton();
     }
 
     public void addMouseEventHandlers(Card card) {
@@ -127,7 +132,7 @@ public class Game extends Pane {
         stockPile.clear();
         Collections.reverse(discardPile.getCards());
         for (Card card: discardPile.getCards()) {
-            if(card.isFaceDown() == false) {
+            if(!card.isFaceDown()) {
                 card.flip();
             }
             stockPile.addCard(card);
@@ -140,13 +145,13 @@ public class Game extends Pane {
         if(destPile.getPileType() == Pile.PileType.FOUNDATION) {
             if(destPile.getTopCard().getSuit() == card.getSuit() && destPile.getTopCard().getRank() == card.getRank() - 1) {
                 return true;
-            } else if(destPile.isEmpty() == true && card.getRank() == 1) {
+            } else if(destPile.isEmpty() && card.getRank() == 1) {
                 return true;
             }
         } else if (destPile.getPileType() == Pile.PileType.TABLEAU) {
             if(destPile.getTopCard().isRed() != card.isRed() && destPile.getTopCard().getRank() == card.getRank() + 1){
                 return true;
-            } else if(destPile.isEmpty() == true && card.getRank() == 13) {
+            } else if(destPile.isEmpty() && card.getRank() == 13) {
                 return true;
             }
         }
@@ -233,7 +238,7 @@ public class Game extends Pane {
                 getChildren().add(cardToAdd);
                 i--;
             }
-            if(pile.getTopCard().isFaceDown() == true) {
+            if(pile.getTopCard().isFaceDown()) {
                 pile.getTopCard().flip();
             }
         }
@@ -251,18 +256,42 @@ public class Game extends Pane {
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
 
-    public void congratulationPopup(Stage primaryStage) {
-        final Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(primaryStage);
-        VBox dialogVbox = new VBox(20);
-        dialogVbox.getChildren().add(new Text("Congratulations, you won!"));
-        Scene dialogScene = new Scene(dialogVbox, 300, 200);
-        dialog.setScene(dialogScene);
-        dialog.show();
+    public void displayCongratulations() {
+        Text txt = new Text();
+        txt.setText("Congratulations, you won!");
+        txt.setLayoutX(Klondike.getWindowHeight()/2);
+        txt.setLayoutY(Klondike.getWindowHeight()/2);
+        txt.setFont(new Font(30));
+        txt.setFill(javafx.scene.paint.Color.WHITE);
+        getChildren().add(txt);
     }
 
     public void shuffleDeck(List deck){
         Collections.shuffle(deck);
+    }
+
+    public void restartButton() {
+        Button restartButton = new Button();
+        restartButton.setText("Restart");
+        restartButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                restartGame();
+            }
+        });
+        getChildren().add(restartButton);
+    }
+
+    public void restartGame() {
+        stockPile.clear();
+        discardPile.clear();
+        tableauPiles.clear();
+        foundationPiles.clear();
+        this.getChildren().clear();
+        deck = Card.createNewDeck();
+        shuffleDeck(deck);
+        initPiles();
+        dealCards();
+        restartButton();
     }
 }

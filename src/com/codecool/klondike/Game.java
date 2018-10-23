@@ -97,7 +97,7 @@ public class Game extends Pane {
             }
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
-            draggedCards = null;
+            draggedCards.clear();
         }
     };
 
@@ -162,7 +162,7 @@ public class Game extends Pane {
         return false;
     }
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
-        Pile result = card.getContainingPile();
+        Pile result = null;
         for (Pile pile : piles) {
             if (!pile.equals(card.getContainingPile()) &&
                     isOverPile(card, pile) &&

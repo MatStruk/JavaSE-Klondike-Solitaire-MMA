@@ -123,7 +123,7 @@ public class Game extends Pane {
         stockPile.clear();
         Collections.reverse(discardPile.getCards());
         for (Card card: discardPile.getCards()) {
-            if(card.isFaceDown()) {
+            if(card.isFaceDown() == false) {
                 card.flip();
             }
             stockPile.addCard(card);
@@ -219,11 +219,18 @@ public class Game extends Pane {
         int i;
         int j = 0;
         for (Pile pile : tableauPiles) {
+            pile.clear();
             j++;
             i=j;
             while ( i > 0) {
-                pile.addCard(deckIterator.next());
+                Card cardToAdd = deckIterator.next();
+                pile.addCard(cardToAdd);
+                addMouseEventHandlers(cardToAdd);
+                getChildren().add(cardToAdd);
                 i--;
+            }
+            if(pile.getTopCard().isFaceDown() == true) {
+                pile.getTopCard().flip();
             }
         }
         deckIterator.forEachRemaining(card -> {

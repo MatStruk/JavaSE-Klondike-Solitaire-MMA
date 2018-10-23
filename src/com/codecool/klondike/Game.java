@@ -128,7 +128,7 @@ public class Game extends Pane {
         stockPile.clear();
         Collections.reverse(discardPile.getCards());
         for (Card card: discardPile.getCards()) {
-            if(card.isFaceDown()) {
+            if(!card.isFaceDown()) {
                 card.flip();
             }
             stockPile.addCard(card);
@@ -139,22 +139,22 @@ public class Game extends Pane {
 
     public boolean isMoveValid(Card card, Pile destPile) {
         if(destPile.getPileType() == Pile.PileType.FOUNDATION) {
-            if(destPile.getTopCard().getSuit() == card.getSuit()) {
+            if(destPile.getTopCard().getSuit() == card.getSuit() && destPile.getTopCard().getRank() == card.getRank() - 1) {
                 return true;
-            } else if(destPile.isEmpty() == true && card.getRank() == 1) {
+            } else if(destPile.isEmpty() && card.getRank() == 1) {
                 return true;
             }
         } else if (destPile.getPileType() == Pile.PileType.TABLEAU) {
-            if(destPile.getTopCard().isRed() != card.isRed()){
+            if(destPile.getTopCard().isRed() != card.isRed() && destPile.getTopCard().getRank() == card.getRank() + 1){
                 return true;
-            } else if(destPile.isEmpty() == true && card.getRank() == 13) {
+            } else if(destPile.isEmpty() && card.getRank() == 13) {
                 return true;
             }
         }
         return false;
     }
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
-        Pile result = null;
+        Pile result = card.getContainingPile();
         for (Pile pile : piles) {
             if (!pile.equals(card.getContainingPile()) &&
                     isOverPile(card, pile) &&
@@ -224,11 +224,18 @@ public class Game extends Pane {
         int i;
         int j = 0;
         for (Pile pile : tableauPiles) {
+            pile.clear();
             j++;
             i=j;
             while ( i > 0) {
-                pile.addCard(deckIterator.next());
+                Card cardToAdd = deckIterator.next();
+                pile.addCard(cardToAdd);
+                addMouseEventHandlers(cardToAdd);
+                getChildren().add(cardToAdd);
                 i--;
+            }
+            if(pile.getTopCard().isFaceDown()) {
+                pile.getTopCard().flip();
             }
         }
         deckIterator.forEachRemaining(card -> {
@@ -261,7 +268,7 @@ public class Game extends Pane {
 
     public void restartButton() {
         Button restartButton = new Button();
-        restartButton.setText("Restart game");
+        restartButton.setText("Restart");
         restartButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -276,5 +283,10 @@ public class Game extends Pane {
         discardPile.clear();
         tableauPiles.clear();
         foundationPiles.clear();
+        this.getChildren();
+        deck = Card.createNewDeck();
+        shuffleDeck(deck);
+        initPiles();
+        dealCards();
     }
 }

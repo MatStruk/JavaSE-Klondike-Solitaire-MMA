@@ -208,7 +208,7 @@ public class Game extends Pane {
         Iterator<Card> deckIterator = deck.iterator();
         int i;
         int j = 0;
-        for (Pile pile : foundationPiles) {
+        for (Pile pile : tableauPiles) {
             j++;
             i=j;
             while ( i > 0) {

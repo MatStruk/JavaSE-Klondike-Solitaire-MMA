@@ -94,7 +94,7 @@ public class Game extends Pane {
             foundationCards += foundation.numOfCards();
         }
         if (foundationCards == 52) {
-            return true;   
+            return true;
         }
         return false;
     }

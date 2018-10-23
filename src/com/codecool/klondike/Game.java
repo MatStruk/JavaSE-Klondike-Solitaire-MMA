@@ -134,13 +134,13 @@ public class Game extends Pane {
 
     public boolean isMoveValid(Card card, Pile destPile) {
         if(destPile.getPileType() == Pile.PileType.FOUNDATION) {
-            if(destPile.getTopCard().getSuit() == card.getSuit()) {
+            if(destPile.getTopCard().getSuit() == card.getSuit() && destPile.getTopCard().getRank() == card.getRank() - 1) {
                 return true;
             } else if(destPile.isEmpty() == true && card.getRank() == 1) {
                 return true;
             }
         } else if (destPile.getPileType() == Pile.PileType.TABLEAU) {
-            if(destPile.getTopCard().isRed() != card.isRed()){
+            if(destPile.getTopCard().isRed() != card.isRed() && destPile.getTopCard().getRank() == card.getRank() + 1){
                 return true;
             } else if(destPile.isEmpty() == true && card.getRank() == 13) {
                 return true;

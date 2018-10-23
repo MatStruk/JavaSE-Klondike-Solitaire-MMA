@@ -287,10 +287,11 @@ public class Game extends Pane {
         discardPile.clear();
         tableauPiles.clear();
         foundationPiles.clear();
-        this.getChildren();
+        this.getChildren().clear();
         deck = Card.createNewDeck();
         shuffleDeck(deck);
         initPiles();
         dealCards();
+        restartButton();
     }
 }

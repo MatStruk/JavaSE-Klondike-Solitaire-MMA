@@ -93,7 +93,7 @@ public class Game extends Pane {
             }
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
-            //draggedCards = null;
+            draggedCards.clear();
         }
     };
 

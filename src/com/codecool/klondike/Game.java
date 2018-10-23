@@ -106,7 +106,8 @@ public class Game extends Pane {
     }
 
     public void refillStockFromDiscard() {
-
+        stockPile.getCards().addAll(discardPile.getCards());
+        discardPile.clear();
         System.out.println("Stock refilled from discard pile.");
     }
 

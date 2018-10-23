@@ -11,11 +11,17 @@ public class Card extends ImageView {
 
     private int suit;
     private int rank;
+    private boolean isRed;
     private boolean faceDown;
 
     private Image backFace;
     private Image frontFace;
     private Pile containingPile;
+
+    public boolean isRed() {
+        return isRed;
+    }
+
     private DropShadow dropShadow;
 
     static Image cardBackImage;
@@ -25,6 +31,7 @@ public class Card extends ImageView {
 
     public Card(int suit, int rank, boolean faceDown) {
         this.suit = suit;
+        this.isRed = getColor(suit);
         this.rank = rank;
         this.faceDown = faceDown;
         this.dropShadow = new DropShadow(2, Color.gray(0, 0.75));
@@ -36,6 +43,14 @@ public class Card extends ImageView {
 
     public int getSuit() {
         return suit;
+    }
+
+    public boolean getColor(int suit) {
+        if (suit == 1 || suit == 2) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public int getRank() {
@@ -79,7 +94,12 @@ public class Card extends ImageView {
 
     public static boolean isOppositeColor(Card card1, Card card2) {
         //TODO
-        return true;
+        if (card1.isRed && card2.isRed) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     public static boolean isSameSuit(Card card1, Card card2) {

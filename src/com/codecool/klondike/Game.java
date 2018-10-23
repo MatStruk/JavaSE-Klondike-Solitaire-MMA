@@ -113,7 +113,8 @@ public class Game extends Pane {
     }
 
     public void refillStockFromDiscard() {
-
+        stockPile.getCards().addAll(discardPile.getCards());
+        discardPile.clear();
         System.out.println("Stock refilled from discard pile.");
     }
 
@@ -125,7 +126,7 @@ public class Game extends Pane {
                 return true;
             }
         } else if (destPile.getPileType() == Pile.PileType.TABLEAU) {
-            if(destPile.getTopCard().getSuit() != card.getSuit()){
+            if(destPile.getTopCard().isRed() != card.isRed()){
                 return true;
             } else if(destPile.isEmpty() == true && card.getRank() == 13) {
                 return true;

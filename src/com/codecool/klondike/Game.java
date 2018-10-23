@@ -106,7 +106,7 @@ public class Game extends Pane {
     }
 
     public void refillStockFromDiscard() {
-        //TODO
+
         System.out.println("Stock refilled from discard pile.");
     }
 
@@ -123,9 +123,8 @@ public class Game extends Pane {
             } else if(destPile.isEmpty() == true && card.getRank() == 13) {
                 return true;
             }
-        } else {
-            return false;
         }
+        return false;
     }
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
         Pile result = null;

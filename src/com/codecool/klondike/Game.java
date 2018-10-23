@@ -101,7 +101,7 @@ public class Game extends Pane {
 
     public Game() {
         deck = Card.createNewDeck();
-        shuffleDeck(deck);
+        shuffleDeck();
         initPiles();
         dealCards();
     }
@@ -227,7 +227,7 @@ public class Game extends Pane {
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
 
-    public void shuffleDeck(List deck){
+    public void shuffleDeck(){
         Collections.shuffle(deck);
     }
 

@@ -10,6 +10,14 @@ public class Klondike extends Application {
     private static final double WINDOW_WIDTH = 1400;
     private static final double WINDOW_HEIGHT = 900;
 
+    public static double getWindowWidth() {
+        return WINDOW_WIDTH;
+    }
+
+    public static double getWindowHeight() {
+        return WINDOW_HEIGHT;
+    }
+
     public static void main(String[] args) {
         launch(args);
     }

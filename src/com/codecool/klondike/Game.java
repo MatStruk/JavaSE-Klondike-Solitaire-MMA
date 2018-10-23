@@ -94,6 +94,7 @@ public class Game extends Pane {
             foundationCards += foundation.numOfCards();
         }
         if (foundationCards == 52) {
+            congratulationPopup();
             return true;
         }
         return false;
@@ -216,5 +217,7 @@ public class Game extends Pane {
                 BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
-
+    public void congratulationPopup() {
+        System.out.println("Test");
+    }
 }

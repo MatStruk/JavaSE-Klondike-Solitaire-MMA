@@ -17,6 +17,11 @@ public class Card extends ImageView {
     private Image backFace;
     private Image frontFace;
     private Pile containingPile;
+
+    public boolean isRed() {
+        return isRed;
+    }
+
     private DropShadow dropShadow;
 
     static Image cardBackImage;

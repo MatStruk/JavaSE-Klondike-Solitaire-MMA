@@ -94,6 +94,7 @@ public class Game extends Pane {
             foundationCards += foundation.numOfCards();
         }
         if (foundationCards == 52) {
+            congratulationPopup();
             return true;
         }
         return false;
@@ -236,6 +237,14 @@ public class Game extends Pane {
 
     public boolean isValidMoveFoundation() {
         return true;
+    }
+
+    public void congratulationPopup() {
+        System.out.println("Test");
+    }
+
+    public void shuffleDeck(List deck){
+        Collections.shuffle(deck);
     }
 
 }

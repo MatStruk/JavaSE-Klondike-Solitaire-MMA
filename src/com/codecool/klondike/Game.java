@@ -89,6 +89,13 @@ public class Game extends Pane {
 
     public boolean isGameWon() {
         //TODO
+        int foundationCards = 0;
+        for (Pile foundation : foundationPiles) {
+            foundationCards += foundation.numOfCards();
+        }
+        if (foundationCards == 52) {
+            return true;   
+        }
         return false;
     }
 

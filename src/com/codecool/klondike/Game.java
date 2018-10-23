@@ -149,7 +149,7 @@ public class Game extends Pane {
         return false;
     }
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
-        Pile result = null;
+        Pile result = card.getContainingPile();
         for (Pile pile : piles) {
             if (!pile.equals(card.getContainingPile()) &&
                     isOverPile(card, pile) &&

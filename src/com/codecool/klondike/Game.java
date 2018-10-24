@@ -66,8 +66,10 @@ public class Game extends Pane {
     private EventHandler<MouseEvent> onMouseDraggedHandler = e -> {
         Card card = (Card) e.getSource();
         Pile activePile = card.getContainingPile();
+
         if (activePile.getPileType() == Pile.PileType.STOCK)
             return;
+
         double offsetX = e.getSceneX() - dragStartX;
         double offsetY = e.getSceneY() - dragStartY;
 
@@ -88,11 +90,13 @@ public class Game extends Pane {
             return;
         Card card = (Card) e.getSource();
         Pile pile = getValidIntersectingPile(card, tableauPiles);
-        //TODO
+        if(pile == null) {
+            pile = getValidIntersectingPile(card, foundationPiles);
+        }
 
         if (pile != null) {
             handleValidMove(card, pile);
-            if(card.getContainingPile().getPileType() != Pile.PileType.DISCARD){
+            if(card.getContainingPile().getPileType() != Pile.PileType.DISCARD && card.getContainingPile().getCards().size() > 1){
                 card.getContainingPile().getCards().get(card.getContainingPile().getCards().size() - 2).flip();
             }
         } else {
@@ -146,13 +150,13 @@ public class Game extends Pane {
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
-        if(destPile.getPileType() == Pile.PileType.FOUNDATION) {
+        if(destPile.getPileType().equals(Pile.PileType.FOUNDATION)) {
             if(destPile.getTopCard().getSuit() == card.getSuit() && destPile.getTopCard().getRank() == card.getRank() - 1) {
                 return true;
             } else if(destPile.isEmpty() && card.getRank() == 1) {
                 return true;
             }
-        } else if (destPile.getPileType() == Pile.PileType.TABLEAU) {
+        } else if (destPile.getPileType().equals(Pile.PileType.TABLEAU)) {
             if(destPile.getTopCard().isRed() != card.isRed() && destPile.getTopCard().getRank() == card.getRank() + 1){
                 return true;
             } else if(destPile.isEmpty() && card.getRank() == 13) {

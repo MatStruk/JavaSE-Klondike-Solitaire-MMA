@@ -194,6 +194,7 @@ public class Game extends Pane {
             if (!pile.equals(card.getContainingPile()) &&
                     isOverPile(card, pile) &&
                     isMoveValid(card, pile)) {
+                isGameWon();
                 result = pile;
             }
         }

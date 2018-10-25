@@ -142,4 +142,9 @@ public class Card extends ImageView {
             }
         }
     }
+
+    public static void reloadCardImages(String pathToImage) {
+
+
+    }
 }

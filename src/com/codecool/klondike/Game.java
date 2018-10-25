@@ -322,4 +322,10 @@ public class Game extends Pane {
         }
         return false;
     }
+
+    public void callReload(String pathToImage) {
+        for (Card card : deck) {
+            card.reloadCardImages(pathToImage);
+        }
+    }
 }

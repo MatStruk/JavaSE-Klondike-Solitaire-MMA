@@ -110,8 +110,8 @@ public class Game extends Pane {
 
         if (pile != null) {
             handleValidMove(card, pile);
-            if (card.getContainingPile().getPileType() != Pile.PileType.DISCARD && card.getContainingPile().getCards().size() > 1) {
-                card.getContainingPile().getCards().get(card.getContainingPile().getCards().size() - numberOfDraggedCards - 1).flip();
+            if(card.getContainingPile().getPileType() != Pile.PileType.DISCARD && (card.getContainingPile().getCards().size() > 1 && card.getContainingPile().getCards().get(card.getContainingPile().getCards().size() - numberOfDraggedCards -1).isFaceDown())) {
+                card.getContainingPile().getCards().get(card.getContainingPile().getCards().size() - numberOfDraggedCards -1).flip();
             }
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
@@ -327,6 +327,6 @@ public class Game extends Pane {
     public void callReload(String pathToImage) {
         for (Card card : deck) {
             card.reloadCardImages(pathToImage);
+            }
         }
-    }
 }

@@ -66,23 +66,40 @@ public class Game extends Pane {
     private EventHandler<MouseEvent> onMouseDraggedHandler = e -> {
         Card card = (Card) e.getSource();
         Pile activePile = card.getContainingPile();
-
-        if (activePile.getPileType() == Pile.PileType.STOCK)
+        List<Card> listOfCards = card.getContainingPile().getCards();
+        List<Card> draggedElements = new ArrayList<Card>();
+        int j = -1;
+        for (int i = 0; i < listOfCards.size(); i++) {
+            if (listOfCards.get(i) == card) {
+                j = i;
+            }
+            if (j == i) {
+                draggedElements.add(listOfCards.get(j));
+            }
+            j++;
+        }
+        if (activePile.getPileType() == Pile.PileType.STOCK) {
             return;
-
+        }
         double offsetX = e.getSceneX() - dragStartX;
         double offsetY = e.getSceneY() - dragStartY;
 
+
         draggedCards.clear();
-        draggedCards.add(card);
+        draggedCards = draggedElements;
+        int x = 0;
+        for (Card element : draggedElements) {
+            if (element == draggedElements.get(0) && draggedElements.size() > 1) {
+                element.flip();
+            }
+            element.getDropShadow().setRadius(20);
+            element.getDropShadow().setOffsetX(10);
+            element.getDropShadow().setOffsetY(10);
 
-        card.getDropShadow().setRadius(20);
-        card.getDropShadow().setOffsetX(10);
-        card.getDropShadow().setOffsetY(10);
-
-        card.toFront();
-        card.setTranslateX(offsetX);
-        card.setTranslateY(offsetY);
+            element.toFront();
+            element.setTranslateX(offsetX);
+            element.setTranslateY(offsetY);
+        }
     };
 
     private EventHandler<MouseEvent> onMouseReleasedHandler = e -> {
@@ -105,7 +122,7 @@ public class Game extends Pane {
         }
     };
 
-    public boolean isGameWon(Stage primaryStage) {
+    public boolean isGameWon() {
         int foundationCards = 0;
         for (Pile foundation : foundationPiles) {
             foundationCards += foundation.numOfCards();
@@ -170,8 +187,9 @@ public class Game extends Pane {
         for (Pile pile : piles) {
             if (!pile.equals(card.getContainingPile()) &&
                     isOverPile(card, pile) &&
-                    isMoveValid(card, pile))
+                    isMoveValid(card, pile)) {
                 result = pile;
+            }
         }
         return result;
     }

@@ -343,5 +343,14 @@ public class Game extends Pane {
         }
         return false;
     }
+<<<<<<< HEAD
     */
+=======
+
+    public void callReload(String pathToImage) {
+        for (Card card : deck) {
+            card.reloadCardImages(pathToImage);
+        }
+    }
+>>>>>>> 387129773b7c117a49813b1b89d260f80f294e5d
 }

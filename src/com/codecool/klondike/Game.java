@@ -313,4 +313,13 @@ public class Game extends Pane {
         this.getChildren().clear();
         createnewGame();
     }
+
+    public boolean isValidMoveFoundation(Card card, Pile destPile) {
+        if(destPile.isEmpty() && card.getRank() == 1) {
+            return true;
+        } else if( destPile.getTopCard().getRank() == (card.getRank() - 1)) {
+            return true;
+        }
+        return false;
+    }
 }

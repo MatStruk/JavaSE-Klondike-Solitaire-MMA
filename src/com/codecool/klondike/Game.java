@@ -110,7 +110,7 @@ public class Game extends Pane {
             pile = getValidIntersectingPile(card, foundationPiles);
         }
 
-        if (pile != null) {
+        if (pile != null && !(numberOfDraggedCards > 1 && pile.getPileType() == Pile.PileType.FOUNDATION)) {
             handleValidMove(card, pile);
             if(card.getContainingPile().getPileType() != Pile.PileType.DISCARD && (card.getContainingPile().getCards().size() > 1 && card.getContainingPile().getCards().get(card.getContainingPile().getCards().size() - numberOfDraggedCards -1).isFaceDown())) {
                 card.getContainingPile().getCards().get(card.getContainingPile().getCards().size() - numberOfDraggedCards -1).flip();

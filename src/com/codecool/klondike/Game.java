@@ -87,11 +87,7 @@ public class Game extends Pane {
 
         draggedCards.clear();
         draggedCards = draggedElements;
-        int x = 0;
         for (Card element : draggedElements) {
-            if (element == draggedElements.get(0) && draggedElements.size() > 1) {
-                element.flip();
-            }
             element.getDropShadow().setRadius(20);
             element.getDropShadow().setOffsetX(10);
             element.getDropShadow().setOffsetY(10);
@@ -103,6 +99,7 @@ public class Game extends Pane {
     };
 
     private EventHandler<MouseEvent> onMouseReleasedHandler = e -> {
+        int numberOfDraggedCards = draggedCards.size();
         if (draggedCards.isEmpty())
             return;
         Card card = (Card) e.getSource();
@@ -114,7 +111,7 @@ public class Game extends Pane {
         if (pile != null) {
             handleValidMove(card, pile);
             if(card.getContainingPile().getPileType() != Pile.PileType.DISCARD && card.getContainingPile().getCards().size() > 1){
-                card.getContainingPile().getCards().get(card.getContainingPile().getCards().size() - 2).flip();
+                card.getContainingPile().getCards().get(card.getContainingPile().getCards().size() - numberOfDraggedCards -1).flip();
             }
         } else {
             draggedCards.forEach(MouseUtil::slideBack);

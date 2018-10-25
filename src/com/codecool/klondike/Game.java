@@ -104,14 +104,14 @@ public class Game extends Pane {
             return;
         Card card = (Card) e.getSource();
         Pile pile = getValidIntersectingPile(card, tableauPiles);
-        if(pile == null) {
+        if (pile == null) {
             pile = getValidIntersectingPile(card, foundationPiles);
         }
 
         if (pile != null) {
             handleValidMove(card, pile);
-            if(card.getContainingPile().getPileType() != Pile.PileType.DISCARD && card.getContainingPile().getCards().size() > 1){
-                card.getContainingPile().getCards().get(card.getContainingPile().getCards().size() - numberOfDraggedCards -1).flip();
+            if (card.getContainingPile().getPileType() != Pile.PileType.DISCARD && card.getContainingPile().getCards().size() > 1) {
+                card.getContainingPile().getCards().get(card.getContainingPile().getCards().size() - numberOfDraggedCards - 1).flip();
             }
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
@@ -153,8 +153,8 @@ public class Game extends Pane {
     public void refillStockFromDiscard() {
         stockPile.clear();
         Collections.reverse(discardPile.getCards());
-        for (Card card: discardPile.getCards()) {
-            if(!card.isFaceDown()) {
+        for (Card card : discardPile.getCards()) {
+            if (!card.isFaceDown()) {
                 card.flip();
             }
             stockPile.addCard(card);
@@ -164,19 +164,19 @@ public class Game extends Pane {
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
-        if(destPile.getPileType().equals(Pile.PileType.FOUNDATION)) {
-            if(destPile.getTopCard() == null) {
-                if(destPile.isEmpty() && card.getRank() == 1) {
+        if (destPile.getPileType().equals(Pile.PileType.FOUNDATION)) {
+            if (destPile.getTopCard() == null) {
+                if (destPile.isEmpty() && card.getRank() == 1) {
                     return true;
                 }
             } else {
-                if(destPile.getTopCard().getSuit() == card.getSuit() && destPile.getTopCard().getRank() == card.getRank() - 1) {
+                if (destPile.getTopCard().getSuit() == card.getSuit() && destPile.getTopCard().getRank() == card.getRank() - 1) {
                     return true;
                 }
             }
         } else if (destPile.getPileType().equals(Pile.PileType.TABLEAU)) {
-            if(destPile.getTopCard() == null) {
-                if(destPile.isEmpty() && card.getRank() == 13) {
+            if (destPile.getTopCard() == null) {
+                if (destPile.isEmpty() && card.getRank() == 13) {
                     return true;
                 }
             } else {
@@ -187,6 +187,7 @@ public class Game extends Pane {
         }
         return false;
     }
+
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
         Pile result = null;
         for (Pile pile : piles) {
@@ -261,15 +262,15 @@ public class Game extends Pane {
         for (Pile pile : tableauPiles) {
             pile.clear();
             j++;
-            i=j;
-            while ( i > 0) {
+            i = j;
+            while (i > 0) {
                 Card cardToAdd = deckIterator.next();
                 pile.addCard(cardToAdd);
                 addMouseEventHandlers(cardToAdd);
                 getChildren().add(cardToAdd);
                 i--;
             }
-            if(pile.getTopCard().isFaceDown()) {
+            if (pile.getTopCard().isFaceDown()) {
                 pile.getTopCard().flip();
             }
         }
@@ -290,14 +291,14 @@ public class Game extends Pane {
     public void displayCongratulations() {
         Text txt = new Text();
         txt.setText("Congratulations, you won!");
-        txt.setLayoutX(Klondike.getWindowHeight()/2);
-        txt.setLayoutY(Klondike.getWindowHeight()/2);
+        txt.setLayoutX(Klondike.getWindowHeight() / 2);
+        txt.setLayoutY(Klondike.getWindowHeight() / 2);
         txt.setFont(new Font(30));
         txt.setFill(javafx.scene.paint.Color.WHITE);
         getChildren().add(txt);
     }
 
-    public void shuffleDeck(List deck){
+    public void shuffleDeck(List deck) {
         Collections.shuffle(deck);
     }
 
@@ -327,3 +328,4 @@ public class Game extends Pane {
             card.reloadCardImages(pathToImage);
         }
     }
+}

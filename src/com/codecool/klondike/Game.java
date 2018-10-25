@@ -52,19 +52,6 @@ public class Game extends Pane {
             card.setMouseTransparent(false);
             System.out.println("Placed " + card + " to the waste.");
         }
-
-        /*for (int i = 0; i < foundationPiles.size(); i++) {
-            if (foundationPiles.get(i).getCards().size() > 0 && card.getContainingPile().getCards().get(card.getContainingPile().numOfCards()) == card) {
-                Card lastCard = foundationPiles.get(i).getCards().get(foundationPiles.get(i).getCards().size() - 1);
-                if (lastCard.getRank() == card.getRank() - 1 && lastCard.getSuit() == card.getSuit()) {
-                    System.out.println("Success");
-                    card.moveToPile(foundationPiles.get(i));
-                }
-                else {
-                    System.out.println("Fail");
-                }
-            }
-        }*/
     };
 
     private EventHandler<MouseEvent> stockReverseCardsHandler = e -> {
@@ -334,23 +321,9 @@ public class Game extends Pane {
         this.getChildren().clear();
         createnewGame();
     }
-/*
-    public boolean isValidMoveFoundation(Card card, Pile destPile) {
-        if(destPile.isEmpty() && card.getRank() == 1) {
-            return true;
-        } else if( destPile.getTopCard().getRank() == (card.getRank() - 1)) {
-            return true;
-        }
-        return false;
-    }
-<<<<<<< HEAD
-    */
-=======
 
     public void callReload(String pathToImage) {
         for (Card card : deck) {
             card.reloadCardImages(pathToImage);
         }
     }
->>>>>>> 387129773b7c117a49813b1b89d260f80f294e5d
-}

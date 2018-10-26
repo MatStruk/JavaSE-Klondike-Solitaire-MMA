@@ -51,7 +51,6 @@ public class Game extends Pane {
             card.moveToPile(discardPile);
             card.flip();
             card.setMouseTransparent(false);
-            System.out.println("Placed " + card + " to the waste.");
         }
     };
 
@@ -120,6 +119,10 @@ public class Game extends Pane {
             draggedCards.forEach(MouseUtil::slideBack);
             draggedCards.clear();
         }
+        if (areAllCardsRevealed()) {
+            System.out.println("Chuj!");
+            dragCardsToFoundationPiles();
+        }
         if (isGameWon()) {
             showModalMessage("Congratulations, you won!");
         }
@@ -175,7 +178,7 @@ public class Game extends Pane {
                     return true;
                 }
             } else {
-                if (destPile.getTopCard().getSuit() == card.getSuit() && destPile.getTopCard().getRank() == card.getRank() - 1) {
+                if (destPile.getTopCard().getSuit() == card.getSuit() &8 destPile.getTopCard().getRank() == card.getRank() - 1) {
                     return true;
                 }
             }
@@ -353,5 +356,32 @@ public class Game extends Pane {
 
         menuBar.getMenus().add(menu);
         getChildren().add(menuBar);
+    }
+
+    private boolean areAllCardsRevealed(){
+        for (Card card : this.deck)
+            if (card.isFaceDown()) {
+                return false;
+            }
+        return true;
+    }
+
+    private void dragCardsToFoundationPiles() {
+        while (!(isGameWon())) {
+            for (Pile foundationPile : foundationPiles) {
+                for (Pile tableauPile : tableauPiles) {
+                    if (tableauPile.getTopCard() != null) {
+                        if (foundationPile.getTopCard().getSuit() == tableauPile.getTopCard().getSuit() && foundationPile.getTopCard().getRank() == tableauPile.getTopCard().getRank() - 1) {
+                            tableauPile.getTopCard().moveToPile(foundationPile);
+                        }
+                    }
+                }
+                if (discardPile.getTopCard() != null) {
+                    if (foundationPile.getTopCard().getSuit() == discardPile.getTopCard().getSuit() && foundationPile.getTopCard().getRank() == discardPile.getTopCard().getRank() - 1) {
+                        discardPile.getTopCard().moveToPile(foundationPile);
+                    }
+                }
+            }
+        }
     }
 }

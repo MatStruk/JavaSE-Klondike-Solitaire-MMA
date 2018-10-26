@@ -117,6 +117,7 @@ public class Game extends Pane {
             draggedCards.forEach(MouseUtil::slideBack);
             draggedCards.clear();
         }
+        isGameWon();
     };
 
     public boolean isGameWon() {
@@ -124,8 +125,9 @@ public class Game extends Pane {
         for (Pile foundation : foundationPiles) {
             foundationCards += foundation.numOfCards();
         }
-        if (foundationCards == 52) {
-            displayCongratulations();
+        System.out.println(foundationCards);
+        if (foundationCards == 51) {
+            showModalMessage("Congratulations, you won!");
             return true;
         }
         return false;
@@ -194,7 +196,6 @@ public class Game extends Pane {
             if (!pile.equals(card.getContainingPile()) &&
                     isOverPile(card, pile) &&
                     isMoveValid(card, pile)) {
-                isGameWon();
                 result = pile;
             }
         }
@@ -289,16 +290,6 @@ public class Game extends Pane {
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
 
-    public void displayCongratulations() {
-        Text txt = new Text();
-        txt.setText("Congratulations, you won!");
-        txt.setLayoutX(Klondike.getWindowHeight() / 2);
-        txt.setLayoutY(Klondike.getWindowHeight() / 2);
-        txt.setFont(new Font(30));
-        txt.setFill(javafx.scene.paint.Color.WHITE);
-        getChildren().add(txt);
-    }
-
     public void shuffleDeck(List deck) {
         Collections.shuffle(deck);
     }
@@ -327,6 +318,18 @@ public class Game extends Pane {
     public void callReload(String pathToImage) {
         for (Card card : deck) {
             card.reloadCardImages(pathToImage);
-            }
         }
+    }
+    private void showModalMessage(String message) {
+        final Stage dialog = new Stage();
+        Text text = new Text(message);
+        Scene dialogScene;
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        VBox dialogVbox = new VBox(20);
+        text.setStyle("-fx-font: 20 arial;");
+        dialogVbox.getChildren().add(text);
+        dialogScene = new Scene(dialogVbox, 350, 50);
+        dialog.setScene(dialogScene);
+        dialog.show();
+    }
 }

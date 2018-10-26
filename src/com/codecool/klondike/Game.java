@@ -130,7 +130,6 @@ public class Game extends Pane {
         for (Pile foundation : foundationPiles) {
             foundationCards += foundation.numOfCards();
         }
-        System.out.println(foundationCards);
         if (foundationCards == 51) {
             return true;
         }

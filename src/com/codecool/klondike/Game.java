@@ -120,7 +120,7 @@ public class Game extends Pane {
         }
     };
 
-    public boolean isGameWon() {
+    private boolean isGameWon() {
         int foundationCards = 0;
         for (Pile foundation : foundationPiles) {
             foundationCards += foundation.numOfCards();
@@ -136,7 +136,7 @@ public class Game extends Pane {
         createnewGame();
     }
 
-    public void createnewGame() {
+    private void createnewGame() {
         deck = Card.createNewDeck();
         shuffleDeck(deck);
         initPiles();
@@ -144,14 +144,14 @@ public class Game extends Pane {
         restartButton();
     }
 
-    public void addMouseEventHandlers(Card card) {
+    private void addMouseEventHandlers(Card card) {
         card.setOnMousePressed(onMousePressedHandler);
         card.setOnMouseDragged(onMouseDraggedHandler);
         card.setOnMouseReleased(onMouseReleasedHandler);
         card.setOnMouseClicked(onMouseClickedHandler);
     }
 
-    public void refillStockFromDiscard() {
+    private void refillStockFromDiscard() {
         stockPile.clear();
         Collections.reverse(discardPile.getCards());
         for (Card card : discardPile.getCards()) {
@@ -164,7 +164,7 @@ public class Game extends Pane {
         System.out.println("Stock refilled from discard pile.");
     }
 
-    public boolean isMoveValid(Card card, Pile destPile) {
+    private boolean isMoveValid(Card card, Pile destPile) {
         if (destPile.getPileType().equals(Pile.PileType.FOUNDATION)) {
             if (destPile.getTopCard() == null) {
                 if (destPile.isEmpty() && card.getRank() == 1) {
@@ -256,7 +256,7 @@ public class Game extends Pane {
         }
     }
 
-    public void dealCards() {
+    private void dealCards() {
         Iterator<Card> deckIterator = deck.iterator();
         int i;
         int j = 0;
@@ -289,11 +289,11 @@ public class Game extends Pane {
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
 
-    public void shuffleDeck(List deck) {
+    private void shuffleDeck(List deck) {
         Collections.shuffle(deck);
     }
 
-    public void restartButton() {
+    private void restartButton() {
         Button restartButton = new Button();
         restartButton.setText("Restart");
         restartButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -305,7 +305,7 @@ public class Game extends Pane {
         getChildren().add(restartButton);
     }
 
-    public void restartGame() {
+    private void restartGame() {
         stockPile.clear();
         discardPile.clear();
         tableauPiles.clear();
@@ -331,4 +331,6 @@ public class Game extends Pane {
         dialog.setScene(dialogScene);
         dialog.show();
     }
+
+
 }

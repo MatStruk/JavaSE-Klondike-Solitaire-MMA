@@ -1,11 +1,8 @@
 package com.codecool.klondike;
 
-import com.sun.prism.paint.Color;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -19,7 +16,6 @@ import javafx.stage.Modality;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
-import javafx.scene.text.Font;
 import javafx.scene.control.Button;
 
 import java.util.ArrayList;
@@ -119,7 +115,9 @@ public class Game extends Pane {
             draggedCards.forEach(MouseUtil::slideBack);
             draggedCards.clear();
         }
-        isGameWon();
+        if (isGameWon()) {
+            showModalMessage("Congratulations, you won!");
+        }
     };
 
     public boolean isGameWon() {
@@ -129,7 +127,6 @@ public class Game extends Pane {
         }
         System.out.println(foundationCards);
         if (foundationCards == 51) {
-            showModalMessage("Congratulations, you won!");
             return true;
         }
         return false;

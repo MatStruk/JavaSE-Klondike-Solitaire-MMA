@@ -47,6 +47,37 @@ public class Game extends Pane {
 
     private EventHandler<MouseEvent> onMouseClickedHandler = e -> {
         Card card = (Card) e.getSource();
+        int doubleClick = 2;
+        if (e.getClickCount() == doubleClick && !e.isConsumed()) {
+            e.consume();
+            if (!card.isFaceDown()) {
+                for (Pile tableauPile : tableauPiles) {
+                    if (tableauPile.getTopCard() == null) {
+                        if (card.getRank() == Rank.King.getValue() && isMoveValid(card, tableauPile)) {
+                            moveCardAndFlipBottom(card, tableauPile);
+                        }
+                    }
+                    else if (tableauPile.getTopCard() != null){
+                        if (card.getRank() == tableauPile.getTopCard().getRank() - 1 && card.isRed() != tableauPile.getTopCard().isRed() && isMoveValid(card, tableauPile)) {
+                                moveCardAndFlipBottom(card, tableauPile);
+                        }
+                    }
+                }
+                for (Pile foundationPile : foundationPiles) {
+                    if (foundationPile.getTopCard() == null) {
+                        if (card.getRank() == Rank.Ace.getValue() && isMoveValid(card, foundationPile)) {
+                                moveCardAndFlipBottom(card, foundationPile);
+                        }
+                    }
+                    else if (foundationPile.getTopCard() != null){
+                        if (card.getRank() == foundationPile.getTopCard().getRank() + 1 && card.getSuit() == foundationPile.getTopCard().getSuit()) {
+                            moveCardAndFlipBottom(card, foundationPile);
+                        }
+                    }
+                }
+            }
+            return;
+        }
         if (card.getContainingPile().getPileType() == Pile.PileType.STOCK) {
             card.moveToPile(discardPile);
             card.flip();
@@ -178,7 +209,7 @@ public class Game extends Pane {
                     return true;
                 }
             } else {
-                if (destPile.getTopCard().getSuit() == card.getSuit() &8 destPile.getTopCard().getRank() == card.getRank() - 1) {
+                if (destPile.getTopCard().getSuit() == card.getSuit() && destPile.getTopCard().getRank() == card.getRank() - 1) {
                     return true;
                 }
             }
@@ -381,6 +412,29 @@ public class Game extends Pane {
                         discardPile.getTopCard().moveToPile(foundationPile);
                     }
                 }
+            }
+        }
+    }
+    private void moveCardAndFlipBottom(Card card, Pile pile) {
+        List<Card> listOfCards = card.getContainingPile().getCards();
+        List<Card> draggedElements = new ArrayList<Card>();
+        draggedElements.add(card);
+        if (card.getContainingPile().getTopCard() != card) {
+            int j = -1;
+            for (int i = 0; i < listOfCards.size(); i++) {
+                if (listOfCards.get(i) == card) {
+                    j = i;
+                }
+                if (j == i) {
+                    draggedElements.add(listOfCards.get(j));
+                }
+                j++;
+            }
+        }
+        MouseUtil.slideToDest(draggedElements, pile);
+        if (card.getContainingPile().numOfCards() > 1 && card.getContainingPile() != discardPile) {
+            if (card.getContainingPile().getCards().get(card.getContainingPile().getCards().size() - 2).isFaceDown()) {
+                card.getContainingPile().getCards().get(card.getContainingPile().getCards().size() - 1 - draggedElements.size()).flip();
             }
         }
     }

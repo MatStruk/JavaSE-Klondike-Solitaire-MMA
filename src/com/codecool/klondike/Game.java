@@ -65,37 +65,39 @@ public class Game extends Pane {
 
     private EventHandler<MouseEvent> onMouseDraggedHandler = e -> {
         Card card = (Card) e.getSource();
-        Pile activePile = card.getContainingPile();
-        List<Card> listOfCards = card.getContainingPile().getCards();
-        List<Card> draggedElements = new ArrayList<Card>();
-        int j = -1;
-        for (int i = 0; i < listOfCards.size(); i++) {
-            if (listOfCards.get(i) == card) {
-                j = i;
+        if(!card.isFaceDown()) {
+            Pile activePile = card.getContainingPile();
+            List<Card> listOfCards = card.getContainingPile().getCards();
+            List<Card> draggedElements = new ArrayList<Card>();
+            int j = -1;
+            for (int i = 0; i < listOfCards.size(); i++) {
+                if (listOfCards.get(i) == card) {
+                    j = i;
+                }
+                if (j == i) {
+                    draggedElements.add(listOfCards.get(j));
+                }
+                j++;
             }
-            if (j == i) {
-                draggedElements.add(listOfCards.get(j));
+            if (activePile.getPileType() == Pile.PileType.STOCK) {
+                return;
             }
-            j++;
-        }
-        if (activePile.getPileType() == Pile.PileType.STOCK) {
-            return;
-        }
-        double offsetX = e.getSceneX() - dragStartX;
-        double offsetY = e.getSceneY() - dragStartY;
+            double offsetX = e.getSceneX() - dragStartX;
+            double offsetY = e.getSceneY() - dragStartY;
 
 
-        draggedCards.clear();
-        draggedCards = draggedElements;
-        for (Card element : draggedElements) {
-            element.getDropShadow().setRadius(20);
-            element.getDropShadow().setOffsetX(10);
-            element.getDropShadow().setOffsetY(10);
+            draggedCards.clear();
+            draggedCards = draggedElements;
+            for (Card element : draggedElements) {
+                element.getDropShadow().setRadius(20);
+                element.getDropShadow().setOffsetX(10);
+                element.getDropShadow().setOffsetY(10);
 
-            element.toFront();
-            element.setTranslateX(offsetX);
-            element.setTranslateY(offsetY);
-        }
+                element.toFront();
+                element.setTranslateX(offsetX);
+                element.setTranslateY(offsetY);
+            }
+         }
     };
 
     private EventHandler<MouseEvent> onMouseReleasedHandler = e -> {
@@ -108,7 +110,7 @@ public class Game extends Pane {
             pile = getValidIntersectingPile(card, foundationPiles);
         }
 
-        if (pile != null) {
+        if (pile != null && !(numberOfDraggedCards > 1 && pile.getPileType() == Pile.PileType.FOUNDATION)) {
             handleValidMove(card, pile);
             if(card.getContainingPile().getPileType() != Pile.PileType.DISCARD && (card.getContainingPile().getCards().size() > 1 && card.getContainingPile().getCards().get(card.getContainingPile().getCards().size() - numberOfDraggedCards -1).isFaceDown())) {
                 card.getContainingPile().getCards().get(card.getContainingPile().getCards().size() - numberOfDraggedCards -1).flip();

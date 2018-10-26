@@ -3,6 +3,7 @@ package com.codecool.klondike;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -17,6 +18,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -133,15 +138,15 @@ public class Game extends Pane {
     }
 
     public Game() {
-        createnewGame();
+        createNewGame();
     }
 
-    private void createnewGame() {
+    private void createNewGame() {
         deck = Card.createNewDeck();
         shuffleDeck(deck);
         initPiles();
         dealCards();
-        restartButton();
+        createMenu();
     }
 
     private void addMouseEventHandlers(Card card) {
@@ -227,30 +232,30 @@ public class Game extends Pane {
     private void initPiles() {
         stockPile = new Pile(Pile.PileType.STOCK, "Stock", STOCK_GAP);
         stockPile.setBlurredBackground();
-        stockPile.setLayoutX(95);
-        stockPile.setLayoutY(20);
+        stockPile.setLayoutX(65);
+        stockPile.setLayoutY(50);
         stockPile.setOnMouseClicked(stockReverseCardsHandler);
         getChildren().add(stockPile);
 
         discardPile = new Pile(Pile.PileType.DISCARD, "Discard", STOCK_GAP);
         discardPile.setBlurredBackground();
-        discardPile.setLayoutX(285);
-        discardPile.setLayoutY(20);
+        discardPile.setLayoutX(255);
+        discardPile.setLayoutY(50);
         getChildren().add(discardPile);
 
         for (int i = 0; i < 4; i++) {
             Pile foundationPile = new Pile(Pile.PileType.FOUNDATION, "Foundation " + i, FOUNDATION_GAP);
             foundationPile.setBlurredBackground();
-            foundationPile.setLayoutX(610 + i * 180);
-            foundationPile.setLayoutY(20);
+            foundationPile.setLayoutX(580 + i * 180);
+            foundationPile.setLayoutY(50);
             foundationPiles.add(foundationPile);
             getChildren().add(foundationPile);
         }
         for (int i = 0; i < 7; i++) {
             Pile tableauPile = new Pile(Pile.PileType.TABLEAU, "Tableau " + i, TABLEAU_GAP);
             tableauPile.setBlurredBackground();
-            tableauPile.setLayoutX(95 + i * 180);
-            tableauPile.setLayoutY(275);
+            tableauPile.setLayoutX(65 + i * 180);
+            tableauPile.setLayoutY(325);
             tableauPiles.add(tableauPile);
             getChildren().add(tableauPile);
         }
@@ -311,7 +316,7 @@ public class Game extends Pane {
         tableauPiles.clear();
         foundationPiles.clear();
         this.getChildren().clear();
-        createnewGame();
+        createNewGame();
     }
 
     public void callReload(String pathToImage) {
@@ -332,5 +337,22 @@ public class Game extends Pane {
         dialog.show();
     }
 
+    private void createMenu() {
+        MenuBar menuBar = new MenuBar();
 
+        Menu menu = new Menu("Menu");
+
+        MenuItem newItem = new MenuItem("Restart", null);
+        newItem.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                restartGame();
+            }
+        });
+
+        menu.getItems().add(newItem);
+        menu.getItems().add(new SeparatorMenuItem());
+
+        menuBar.getMenus().add(menu);
+        getChildren().add(menuBar);
+    }
 }

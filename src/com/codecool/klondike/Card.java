@@ -116,6 +116,7 @@ public class Card extends ImageView {
         return result;
     }
 
+
     public static void loadCardImages(String imagePath) {
         cardBackImage = new Image(imagePath + "/card_back.png");
         String suitName = "";

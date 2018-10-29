@@ -116,8 +116,8 @@ public class Card extends ImageView {
         return result;
     }
 
-    public static void loadCardImages() {
-        cardBackImage = new Image("card_images/card_back.png");
+    public static void loadCardImages(String imagePath) {
+        cardBackImage = new Image(imagePath + "/card_back.png");
         String suitName = "";
         for (int suit = 1; suit < 5; suit++) {
             switch (suit) {
@@ -137,13 +137,13 @@ public class Card extends ImageView {
             for (int rank = 1; rank < 14; rank++) {
                 String cardName = suitName + rank;
                 String cardId = "S" + suit + "R" + rank;
-                String imageFileName = "card_images/" + cardName + ".png";
+                String imageFileName = imagePath + "/" + cardName + ".png";
                 cardFaceImages.put(cardId, new Image(imageFileName));
             }
         }
     }
 
-    public static void reloadCardImages(String pathToImage) {
+    public static void reloadCardImages(String imagePath) {
 
 
     }
